@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ecr-app-underwater
+  name: ecr-app-underwater-2
   labels:
     app: octopus-underwater-app
 spec:
