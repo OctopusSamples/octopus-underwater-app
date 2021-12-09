@@ -1,6 +1,4 @@
-
 node {
-    def app
 
     stage('Clone repository') {
 
@@ -25,6 +23,10 @@ node {
             app.push("latest")
         }
     }
-}
+    
+    stage("kubernetes deployment"){
+        sh 'kubectl apply -f deployment.yml'
+    }
+} 
 
 
