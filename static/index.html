@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" class="fontawesome-i2svg-active fontawesome-i2svg-complete">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Continue your journey with Octopus Deploy</title>
+    <meta name="description" content="Find out about Octopus Deploy and where to learn more." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="Octopus Deploy" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="High level overview of Octopus Deploy" />
+    <meta property="og:description" content="Learn how to create the build information file to push to Octopus Deploy." />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:site_name" content="Octopus Deploy" />
+    <meta property="twitter:card" content="summary" />
+    <meta property="twitter:site" content="@OctopusDeploy" />
+    <meta name="application-name" content="Octopus Deploy" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="canonical" href="https://octopus.com/blog/constructing-build-information" />
+    <link rel="me" type="text/html" href="https://twitter.com/OctopusDeploy" />
+    <link rel="icon" type="image/png" href="https://octopus.com/images/(global)/favicon.png" />
+    <link rel="apple-touch-icon" href="https://octopus.com/images/(global)/apple-touch-icon.png" />
+    <link href="http://feeds.feedburner.com/OctopusDeploy" type="application/rss+xml" rel="alternate" title="Octopus Deploy Blog Feed" />
+    <link rel="search" type="application/opensearchdescription+xml" href="https://octopus.com/search/opensearchdescription" title="Octopus Deploy" />
+</head>
+
+<body class="bg-light-cyan pt-4" data-new-gr-c-s-check-loaded="14.1026.0" data-gr-ext-installed="">
+    <!-- Animation -->
+    <div class="clouds">
+        <div class="container">
+            <img src="octopus-logo.svg" alt="Octopus Deploy" />
+        </div>
+        <img id="boat" src="boat.svg" />
+    </div>
+    <div id="waves"></div>
+
+    <main style="background-image: url('ocean-bed.svg')" class="sea-bed-background">
+        <div class="container">
+            <div class="row">
+                <div class="col blog-single__content-area container-padding" id="blog-content">
+                    <article class="paper">
+                        <header class="text-center py-4">
+                            <h1 class="text-white">
+                                Continue your journey with Octopus Deploy
+                            </h1>
+                            <h4 class="font-weight-normal text-white">
+                                We’ve curated these helpful posts for you.
+                            </h4>
+                        </header>
+
+                        <div class="row mb-3 mb-lg-5 align-items-stretch">
+                            <article class="col-sm-6 col-lg-4 my-3">
+                                <a href="https://octopus.com/blog/ten-pillars-of-pragmatic-deployments" class="blog-card">
+                                    <figure class="blog-card__image">
+                                        <img src="blogimage-the-ten-pillars-of-pragmatic-deployments-2021.png" alt="The ten pillars of pragmatic deployments" />
+                                    </figure>
+                                    <div class="py-3 px-4 blog-card__text">
+                                        <span class="badge badge-primary blog-card__topic">DevOps</span
+                      >
+                      <h3 class="m-0 color-text-normal blog-card__title">
+                        The ten pillars of pragmatic deployments
+                      </h3>
+                    </div>
+                    <div class="px-4 pb-4 blog__meta row">
+                      <div class="blog__meta__avatar col-auto pr-0">
+                        <img
+                          src="profile-matthewcasperson.png"
+                          class="profile-image profile-image--small m-0"
+                          alt="Matthew Casperson"
+                        />
+                      </div>
+                      <div class="blog__meta__text col">
+                        <p class="m-0 color-text-normal font-weight-medium">
+                          Mathew Casperson
+                        </p>
+                        <p class="m-0 color-text-muted font-weight-normal">
+                          February 22, 2021 • 18 mins
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+
+                <article class="col-sm-6 col-lg-4 my-3">
+                  <a
+                    href="https://octopus.com/blog/importing-deploying-your-first-octopus-project"
+                    class="blog-card"
+                  >
+                    <figure class="blog-card__image">
+                      <img
+                        src="blogimage-importingadeployabletutorialwithoctopusdeployandazurewebapplications-2021.webp"
+                        alt="Laptop with code on screen sits behind a rocket ship that is launching towards Azure logo above"
+                      />
+                    </figure>
+                    <div class="py-3 px-4 blog-card__text">
+                      <span class="badge badge-primary blog-card__topic"
+                        >DevOps</span
+                      >
+                      <h3 class="m-0 color-text-normal blog-card__title">
+                        Importing and deploying your first Octopus project
+                      </h3>
+                    </div>
+                    <div class="px-4 pb-4 blog__meta row">
+                      <div class="blog__meta__avatar col-auto pr-0">
+                        <img
+                          src="profile-terencewong.png"
+                          class="profile-image profile-image--small m-0"
+                          alt="Terence Wong"
+                        />
+                      </div>
+                      <div class="blog__meta__text col">
+                        <p class="m-0 color-text-normal font-weight-medium">
+                          Terence Wong
+                        </p>
+                        <p class="m-0 color-text-muted font-weight-normal">
+                          October 20, 2021 • 6 mins
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+
+                <article class="col-sm-6 col-lg-4 my-3">
+                  <a
+                    href="https://octopus.com/blog/common-deployment-patterns-and-how-to-set-them-up-in-octopus"
+                    class="blog-card"
+                  >
+                    <figure class="blog-card__image">
+                      <img
+                        src="blogimage-commondeploymentpatternsandhowtousetheminoctopus-2021.png"
+                        alt="Octopus logo surrounded by four blocks, representing deployments types of blue/green, canary, rolling/lighthouse, and multi-region."
+                      />
+                    </figure>
+                    <div class="py-3 px-4 blog-card__text">
+                      <span class="badge badge-primary blog-card__topic"
+                        >DevOps</span
+                      >
+                      <h3 class="m-0 color-text-normal blog-card__title">
+                        Common deployment patterns and how to use them in
+                        Octopus
+                      </h3>
+                    </div>
+                    <div class="px-4 pb-4 blog__meta row">
+                      <div class="blog__meta__avatar col-auto pr-0">
+                        <img
+                          src="profile-andycorrigan.png"
+                          class="profile-image profile-image--small m-0"
+                          alt="Andy Corrigan"
+                        />
+                      </div>
+                      <div class="blog__meta__text col">
+                        <p class="m-0 color-text-normal font-weight-medium">
+                          Andy Corrigan
+                        </p>
+                        <p class="m-0 color-text-muted font-weight-normal">
+                          November 8, 2021 • 10 mins
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </article>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+     
+    </main>
+</body>
+
+<footer class="bg-dark-cyan pb-4">
+  
+  <div class="container">
+    <span class="octopus-logo-white mb-4"></span>
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <p class="text-white">Copyright © 2021 Octopus Deploy</p>
+                                            </div>
+                                            <div class="col-4 text-right">
+                                                <a href="mailto:customersuccess@octopus.com"><i class="fa fa-envelope fa-lg text-light pr-3"></i></a>
+                                                <a href="https://twitter.com/OctopusDeploy" title="Twitter"><i class="fa fa-twitter fa-lg text-light pr-3" title="Twitter"></i></a>
+                                                <a href="https://www.linkedin.com/company/octopus-deploy" title="LinkedIn"><i class="fa fa-linkedin fa-lg text-light" title="LinkedIn"></i>
+                              </div>
+                  </div>
+          </div>
+</footer>
+
+</html>
