@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecr-app-jenk-new
+  labels:
+    app: octopus-underwater-app
+spec:
+  selector:
+    matchLabels:
+      octopusexport: OctopusExport
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: octopus-underwater-app
+        octopusexport: OctopusExport
+    spec:
+      containers:
+        - name: octopus-underwater-app
+          image: 720766170633.dkr.ecr.us-east-2.amazonaws.com/jenkins-ecr:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
