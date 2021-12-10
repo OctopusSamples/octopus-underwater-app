@@ -5,6 +5,9 @@ metadata:
   labels:
     app: octopus-underwater-app
 spec:
+  selector:
+    matchLabels:
+        app: octopus-underwater-app
   replicas: 3
   strategy:
     type: RollingUpdate
