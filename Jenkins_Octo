@@ -1,0 +1,33 @@
+node {
+    def app
+
+    stage('Clone repository') {
+
+        checkout scm
+    }
+
+    stage('Build image') {
+        /* Referencing the image name in AWS */
+
+        app = docker.build("underwater-octo")
+    }
+    
+    stage('Test image') {
+    /* Empty for test purposes */
+
+    }
+
+    stage('Push image') {
+        /* Referencing the AWS registry. Tagging with the Jenkins build number and the latest tag */
+        docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
+    }
+    
+        stage('Create and Deploy Release') {
+        octopusCreateRelease additionalArgs: '', cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "Production", jenkinsUrlLinkback: false, project: "underwater-octo", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
+        octopusDeployRelease cancelOnTimeout: false, deploymentTimeout: '', environment: "Production", project: "underwater-octo", releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', variables: '', verboseLogging: false, waitForDeployment: true
+            
+    }
+}
