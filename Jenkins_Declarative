@@ -6,30 +6,30 @@ pipeline {
     stages {
          stage('Clone repository') { 
             steps { 
-            script{
+                script{
                 checkout scm
-            }
+                }
             }
         }
         
         stage('Build') { 
             steps { 
-            script{
+                script{
                  app = docker.build("underwater")
-            }
+                }
             }
         }
         stage('Test'){
             steps {
-                 sh 'ls -l'
+                 echo 'Empty'
             }
         }
         stage('Deploy') {
             steps {
-            script{
-                docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+                script{
+                        docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
                     }
                 }
             }
