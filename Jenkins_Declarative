@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Test'){
             steps {
-                 /* insert Declarative Pipeline here */
+                 sh 'echo 'test''
             }
         }
         stage('Deploy') {
