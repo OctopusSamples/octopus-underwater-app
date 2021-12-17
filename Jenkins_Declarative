@@ -1,38 +1,29 @@
 node {
-
-    stage('Clone repository') {
-
-        checkout scm
-    }
-
-    stage('Build image') {
-        /* Referencing the image name in AWS */
-        steps{
-        app = docker.build("underwater")
+    stages {
+         stage('Clone repository') { 
+            steps { 
+                checkout scm
+            }
         }
-    }
-    
-    stage('Test image') {
-    /* Empty for test purposes */
-    steps{
-    }
-
-    }
-
-    stage('Push image') {
-        /* Referencing the AWS registry. Tagging with the Jenkins build number and the latest tag */
-        steps{
-        docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
+        
+        stage('Build') { 
+            steps { 
+                 app = docker.build("underwater")
+            }
+        }
+        stage('Test'){
+            steps {
+                sh 'make check'
+                junit 'reports/**/*.xml' 
+            }
+        }
+        stage('Deploy') {
+            steps {
+                docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
-        }
-    }
-    
-    stage("kubernetes deployment"){
-        steps{
-        sh 'kubectl apply -f deployment.yml'
-        sh 'kubectl rollout restart deployment ecr-app-underwater'
+            }
         }
     }
 } 
