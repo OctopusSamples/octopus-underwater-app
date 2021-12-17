@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Test'){
             steps {
-                //empty
+                 /* insert Declarative Pipeline here */
             }
         }
         stage('Deploy') {
