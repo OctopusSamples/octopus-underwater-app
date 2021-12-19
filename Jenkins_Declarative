@@ -36,8 +36,8 @@ pipeline {
         }
         stage('Deploy'){
             steps {
-                octopusCreateRelease additionalArgs: '', serverId:'octopus-jenkins', 'octopus-server' cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "Production", jenkinsUrlLinkback: false, project: "underwater-octo", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
-                octopusDeployRelease cancelOnTimeout: false, serverId:'octopus-jenkins', spaceId:'default', 'octopus-server' deploymentTimeout: '', environment: "Production", project: "underwater-octo", releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', variables: '', verboseLogging: false, waitForDeployment: true
+                octopusCreateRelease additionalArgs: '', 'octopus-server' cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "Production", serverId:'octopus-jenkins',  jenkinsUrlLinkback: false, project: "underwater-octo", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
+                octopusDeployRelease cancelOnTimeout: false, 'octopus-server' deploymentTimeout: '', environment: "Production", project: "underwater-octo", serverId:'octopus-jenkins', spaceId:'default',  releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', variables: '', verboseLogging: false, waitForDeployment: true
             }
         }
         
