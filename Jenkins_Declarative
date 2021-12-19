@@ -36,8 +36,8 @@ pipeline {
         }
         stage('Deploy'){
             steps {
-                 sh 'kubectl apply -f deployment.yml'
-                 sh 'kubectl rollout restart deployment ecr-app-underwater'
+                octopusCreateRelease additionalArgs: '', cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "Production", jenkinsUrlLinkback: false, project: "underwater-octo", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
+                octopusDeployRelease cancelOnTimeout: false, deploymentTimeout: '', environment: "Production", project: "underwater-octo", releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', variables: '', verboseLogging: false, waitForDeployment: true
             }
         }
         
