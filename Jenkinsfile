@@ -24,7 +24,7 @@ pipeline {
                  echo 'Empty'
             }
         }
-        stage('Push') {
+        stage('Deploy') {
             steps {
                 script{
                         docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
@@ -34,12 +34,5 @@ pipeline {
                 }
             }
         }
-        stage('Deploy'){
-            steps {
-                 sh 'kubectl apply -f deployment.yml'
-                 sh 'kubectl rollout restart deployment ecr-app-underwater'
-            }
-        }
-        
     }
 }
