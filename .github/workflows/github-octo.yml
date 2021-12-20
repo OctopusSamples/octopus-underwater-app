@@ -1,52 +1,31 @@
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
-name: AWS ECR push
-
+on: push
+name: deploy
 jobs:
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
+ deploy:
+   name: deploy to cluster
+   runs-on: ubuntu-latest
+   steps:
+   - name: Checkout
+     uses: actions/checkout@v2
+   - name: Configure AWS credentials
+     uses: aws-actions/configure-aws-credentials@v1
+     with:
+       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       aws-region: us-east-2
+   - name: Login to Amazon ECR
+     id: login-ecr
+     uses: aws-actions/amazon-ecr-login@v1
+   - name: Push image and deploy
+     uses: observian/littleci-littlecd-eks@master
 
-    steps:
-    - name: Install Octopus CLI
-      uses: OctopusDeploy/install-octopus-cli-action@v1.1.1
-      with:
-          version: latest
-    - name: Checkout
-      uses: actions/checkout@v2
-      
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push the image to Amazon ECR
-      id: build-image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: ${{ secrets.REPO_NAME }}
-        IMAGE_TAG: "latest"
-        
-      run: |
-        # Build a docker container and push it to ECR 
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        echo "Pushing image to ECR..."
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        
-    - name: create Octopus release
-      run: octo create-release --project underwater-octo-github --version 0.0.i --server=${{ secrets.OCTOPUS_SERVER }} --apiKey=${{ secrets.OCTOPUS_APIKEY }}
-        
-    - name: deploy Octopus release
-      run: octo deploy-release --project underwater-octo-github --version=latest --deployto Development --server=${{ secrets.OCTOPUS_SERVER }} --apiKey=${{ secrets.OCTOPUS_APIKEY }}    
-     
+     with:
+       access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+       secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       account_id: ${{ secrets.AWS_ACCOUNT_ID }}
+       repo: github-ecr
+       region: us-east-2
+       tags: 0.1.1.${{ github.run_number }},${{ github.sha }}
+       eks_cluster_name: my-cluster-cli
+       k8s_manifest: git-deployment.yml
+       k8s_image_tag: 0.1.1.${{ github.run_number }}
