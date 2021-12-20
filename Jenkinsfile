@@ -1,33 +1,47 @@
-node {
-
-    stage('Clone repository') {
-
-        checkout scm
+pipeline {
+    agent any
+    options {
+        skipStagesAfterUnstable()
     }
-
-    stage('Build image') {
-        /* Referencing the image name in AWS */
-
-        app = docker.build("underwater")
-    }
-    
-    stage('Test image') {
-    /* Empty for test purposes */
-
-    }
-
-    stage('Push image') {
-        /* Referencing the AWS registry. Tagging with the Jenkins build number and the latest tag */
-        docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
+    stages {
+         stage('Clone repository') { 
+            steps { 
+                script{
+                checkout scm
+                }
+            }
         }
+        
+        stage('Build') { 
+            steps { 
+                script{
+                 app = docker.build("underwater")
+                }
+            }
+        }
+        stage('Test'){
+            steps {
+                 echo 'Empty'
+            }
+        }
+        stage('Push') {
+            steps {
+                script{
+                        docker.withRegistry('https://720766170633.dkr.ecr.us-east-2.amazonaws.com', 'ecr:us-east-2:aws-credentials') {
+                    app.push("${env.BUILD_NUMBER}")
+                    app.push("latest")
+                    }
+                }
+            }
+        }
+        stage('Deploy'){
+            steps {
+                script{
+                    octopusCreateRelease additionalArgs: '', cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "Development", jenkinsUrlLinkback: false, project: "underwater-octo", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
+                    octopusDeployRelease cancelOnTimeout: false, deploymentTimeout: '', environment: "Development", project: "underwater-octo", releaseVersion: "1.0.${BUILD_NUMBER}", tenant: '', tenantTag: '', toolId: 'Default', variables: '', verboseLogging: false, waitForDeployment: true
+                }
+            }
+        }
+        
     }
-    
-    stage("kubernetes deployment"){
-        sh 'kubectl apply -f deployment.yml'
-        sh 'kubectl rollout restart deployment ecr-app-underwater'
-    }
-} 
-
-
+}
