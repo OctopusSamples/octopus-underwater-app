@@ -23,11 +23,11 @@ pipeline {
                 }
             }            
         }
-        stage('Test'){
-            steps {
-                 echo 'Empty'
+            stage('Test'){
+                steps {
+                     echo 'Empty'
+                }
             }
-        }
         stage('Deploy') {
             steps {
                 script{
