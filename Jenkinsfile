@@ -18,15 +18,12 @@ pipeline {
                  app = docker.build("underwater")
                 }
             }
-            steps { 
-                sh 'systemctl start docker' 
-            }            
         }
-            stage('Test'){
-                steps {
-                     echo 'Empty'
-                }
+        stage('Test'){
+            steps {
+                 echo 'Empty'
             }
+        }
         stage('Deploy') {
             steps {
                 script{
