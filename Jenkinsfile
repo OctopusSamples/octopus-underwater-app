@@ -19,8 +19,7 @@ pipeline {
                 }
             }
             steps { 
-                sh 'systemctl start docker'
-                }
+                sh 'systemctl start docker' 
             }            
         }
             stage('Test'){
