@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
         app: octopus-underwater-app
-  replicas: 3
+  replicas: 1
   strategy:
     type: RollingUpdate
   template:
@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: octopus-underwater-app
-          image: <Your AWS ECR URL>/underwater:latest
+          image: https://922786934247.dkr.ecr.us-east-1.amazonaws.com/underwater:latest
           ports:
             - containerPort: 80
               protocol: TCP
