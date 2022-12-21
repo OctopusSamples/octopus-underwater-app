@@ -1,0 +1,83 @@
+name: Build and publish PR
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get branch name
+        id: branch_name
+        uses: tj-actions/branch-names@v6
+
+      - name: Replace invalid branch characters
+        uses: OctopusDeploy/util-actions/find-and-replace-all@find-and-replace-all.0.1.0
+        id: extract_branch
+        with:
+          source: ${{ steps.branch_name.outputs.current_branch }}
+          searchString: "/"
+          replace: "-"
+
+      - name: Zip static files
+        uses: OctopusDeploy/create-zip-package-action@v3.0.0
+        with:
+          package_id: octopus-underwater-app
+          version: "1.0.0-${{ steps.extract_branch.outputs.value }}-${{ github.run_number }}-${{ github.run_attempt }}"
+          output_folder: ./dist
+          base_path: ./static
+          files: "**"
+
+      - name: Zip infrastructure
+        uses: OctopusDeploy/create-zip-package-action@v3.0.0
+        with:
+          package_id: octopus-underwater-app-infrastructure
+          version: "1.0.0-${{ steps.extract_branch.outputs.value }}-${{ github.run_number }}-${{ github.run_attempt }}"
+          output_folder: ./dist
+          base_path: ./terraform
+          files: "**"
+
+      - name: Push Packages to Octopus Deploy
+        uses: OctopusDeploy/push-package-action@v3.0.2
+        with:
+          packages: "./dist/*.zip"
+          overwrite_mode: "IgnoreIfExists"
+          api_key: ${{ secrets.OCTOPUS_API_KEY }}
+          server: ${{ secrets.OCTOPUS_URL }}
+          space: Default
+
+      - name: Create Release in Octopus Deploy
+        uses: OctopusDeploy/create-release-action@v3.0.1
+        with:
+          project: "Underwater App"
+          release_number: "1.0.0-${{ steps.extract_branch.outputs.value }}-${{ github.run_number }}-${{ github.run_attempt }}"
+          package_version: "1.0.0-${{ steps.extract_branch.outputs.value }}-${{ github.run_number }}-${{ github.run_attempt }}"
+          ignore_existing: true
+          server: ${{ secrets.OCTOPUS_URL }}
+          api_key: ${{ secrets.OCTOPUS_API_KEY }}
+          space: Default
+
+      - name: Create dynamic environment if it doesn't exist
+        shell: "pwsh"
+        run: |
+          $environments = curl -H "X-Octopus-ApiKey: ${{ secrets.OCTOPUS_API_KEY }}" ${{ secrets.OCTOPUS_URL }}/api/spaces/Spaces-1/environments/dynamic/v1
+          $match = $environments -match "${{ steps.extract_branch.outputs.value }}"
+
+          if ($match.length -eq 0)
+          {
+            curl -H "Content-Type: application/json" -H "X-Octopus-ApiKey: ${{ secrets.OCTOPUS_API_KEY }}" -X POST -d "{ 'name': '${{ steps.extract_branch.outputs.value }}' }" ${{ secrets.OCTOPUS_URL }}/api/spaces/Spaces-1/environments/dynamic/create/v1
+          }
+
+      - name: Deploy Release in Octopus Deploy
+        uses: OctopusDeploy/deploy-release-action@v3.0.0
+        with:
+          project: "Underwater App"
+          release_number: "1.0.0-${{ steps.extract_branch.outputs.value }}-${{ github.run_number }}-${{ github.run_attempt }}"
+          environments: ${{ steps.extract_branch.outputs.value }}
+          server: ${{ secrets.OCTOPUS_URL }}
+          api_key: ${{ secrets.OCTOPUS_API_KEY }}
+          space: Default
