@@ -6,9 +6,7 @@ pipeline {
     stages {
          stage('Clone repository') { 
             steps {
-                echo '$PATH'
                 script{
-
                 checkout scm
                 }
             }
