@@ -1,7 +1,4 @@
 pipeline {
-      agent {
-        label 'docker'
-      }
     options {
         skipStagesAfterUnstable()
     }
