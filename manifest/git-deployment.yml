@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: underwater-app-github
+  labels:
+    app: octopus-underwater-app
+spec:
+  selector:
+    matchLabels:
+        app: octopus-underwater-app
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: octopus-underwater-app
+    spec:
+      containers:
+        - name: octopus-underwater-app
+          image: 432030471883.dkr.ecr.us-east-1.amazonaws.com/octopus-underwater-app-docker-nick:latest
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          imagePullPolicy: Always
