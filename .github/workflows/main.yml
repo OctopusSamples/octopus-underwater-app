@@ -54,3 +54,4 @@ jobs:
       run: |
         sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifest/git-deployment.yml && \
         kubectl apply -f manifest/git-deployment.yml
+        kubectl apply -f manifests/service.yml
