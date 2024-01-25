@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ main ]
 
-name: AWS ECR push1
+name: AWS ECR push0
 
 jobs:
   deploy:
