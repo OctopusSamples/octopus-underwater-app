@@ -50,7 +50,7 @@ jobs:
     - name: Deploy to EKS1
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
-        IMAGE_TAG: ${{ steps.commit.outputs.short }}
+        IMAGE_TAG: "latest"
       run: |
-        sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifest/git-deployment.yaml && \
-        kubectl apply -f manifest/git-deployment.yaml
+        sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" manifest/git-deployment.yml && \
+        kubectl apply -f manifest/git-deployment.yml
