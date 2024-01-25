@@ -47,7 +47,7 @@ jobs:
     - name: Update kube config
       run: aws eks update-kubeconfig --name octopus --region us-east-1
 
-    - name: Deploy to EKS
+    - name: Deploy to EKS1
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
         IMAGE_TAG: ${{ steps.commit.outputs.short }}
